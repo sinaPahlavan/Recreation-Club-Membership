@@ -1,0 +1,5 @@
+As of April 7th at 6:08
+To do:
+    1- Improve viewMessages() in Member.py => currently a list is printed. Print them line by line indented
+    2- Make the attendedClasses attribute in Member a list of strings where each string is a meeting
+    3- When a member pays upfront send them a message

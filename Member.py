@@ -55,7 +55,7 @@ class Member:
         return self.__messages
 
     def loop(self):
-        print("Welcome %s" % self.__name)
+        print("\n\tWelcome %s to the member panel\n" % self.__name)
         cond = True
         while cond:
 

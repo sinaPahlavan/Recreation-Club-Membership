@@ -39,7 +39,7 @@ class Club:
                         value.receiveMessage("Don't forget to attend %s meeting. The instructor will be there!" % meetingTitle)
                     else:
                         value.receiveMessage(
-                            "Don't forget to attend %s meeting. The instructor will be there!" % meetingTitle)
+                            "Don't forget to attend %s meeting. The instructor will not be there however!" % meetingTitle)
 
         else:
             print("Meeting %s not found" % meetingTitle)
@@ -53,10 +53,12 @@ class Club:
                 wage = 100 * self.instructor.getAttendance()
                 self.__balance -= wage
                 self.instructor.receiveMessage("Congrats! You have been paid %d dollars for the %d classes you supervised." % (wage, self.instructor.getAttendance()))
+                self.instructor.reset()
+
             else:
                 print("The instructor has not attended any classes")
         else:
-            print("The instrcutor can only be paid biweekly or monthly")
+            print("The instructor can only be paid biweekly or monthly")
 
     def startMeeting(self,meetingTitle):
         print("\n****************************************************\n")
@@ -66,7 +68,7 @@ class Club:
             print("%s"%key,sep=", ")
         print("\n")
 
-        instructorAttends = int(input("Enter 1 if the instructor is present"))
+        instructorAttends = int(input("Enter 1 if the instructor is present. Enter any other integer if they are not: "))
 
         if instructorAttends == 1:
             self.instructor.attends()
@@ -96,6 +98,7 @@ class Club:
 
                 else:
                     self.__memberList[name].attend(meetingTitle, 0)
+                    member.addDebt(10)
             else:
                 print("No member found named %s"%name)
 
@@ -103,7 +106,9 @@ class Club:
     def clubLoop(self):
         cnd = True
         while cnd:
-            print("Please choose one of the following options or press 5 to return to the main menu")
+            print("\t\t\t\t*"*12)
+            print("\nManager/Treasurer Panel\n")
+            print("Please choose one of the following options or press any other integer to return to the main menu\n")
 
             choice = int(input(
                 "\t1. To notify members with debt\n\t2. To schedule a meeting\n\t3. To send reminders about a meeting\n\t4. To start a meeting\n\t5. To pay the instructor\nYour choice: "))
@@ -139,6 +144,10 @@ class Club:
         cond = False
         while not cond:
 
+            print("\t+"*15)
+            print("\n")
+            print("\t\t\t\tMAIN MENU")
+            print("\n")
             option = int(input("To use as a member please press 1\nTo use as treasurer press 2\nTo use as an instructor press 3\nYour choice: "))
 
             if option == 1:
@@ -160,36 +169,9 @@ class Club:
                     self.addMember(name)
 
             elif option == 2:
-                #This option is activated when the user is a club manager/treasurer
 
-                # print("Please choose one of the following options or press 5 to return to the main menu")
-                #
-                # choice = int(input("\t1. To notify members with debt\n\t2. To schedule a meeting\n\t3. To send reminders about a meeting\n\t4. To start a meeting\nYour choice: "))
-                # if choice == 1:
-                #     self.sendBalanceNotice()
-                #
-                # elif choice == 2:
-                #
-                #     title = input("What's the title of the meeting to schedule? ")
-                #     instructorAttends = int(input("Will the instructor attend this meeting? Enter 1 for yes or 0 for no: "))
-                #     if instructorAttends == 1:
-                #         self.instructor.attends()
-                #         self.__meetingList[title] = Meeting(title,1,"Upcoming")
-                #     else:
-                #         self.__meetingList[title] = Meeting(title, 0, "Upcoming")
-                #
-                # elif choice == 3:
-                #     title = input("What's the title of the meeting you would like to send reminders about? ")
-                #     self.sendMeetingReminders(title)
-                #
-                # elif choice == 4:
-                #
-                #     title = input("What's the title of the meeting you would like to start? ")
-                #     self.startMeeting(title)
-                #
-                # else:
-                #     print(self.__meetingList)
                 self.clubLoop()
+
             elif option == 3:
                 #This option is activated when the user is an instructor
                 cond2 = True

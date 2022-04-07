@@ -18,3 +18,5 @@ class Instructor:
             return "Your mailbox is currently empty\n"
         return self.__messages
 
+    def reset(self):
+        self.__attendance = 0
