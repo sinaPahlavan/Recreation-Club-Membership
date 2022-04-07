@@ -17,3 +17,4 @@ class Instructor:
         if len(self.__messages) == 0:
             return "Your mailbox is currently empty\n"
         return self.__messages
+

@@ -8,5 +8,7 @@ class Meeting:
 
     def addAttendee(self,memberObj):
         self.__attendees.append(memberObj)
+    def instructorAttends(self):
+        return self.__instructorAttends
     def getStatus(self):
         return self.__status
