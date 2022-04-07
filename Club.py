@@ -75,30 +75,44 @@ class Club:
         inputs = input("Enter the names of participants in this class: ")
 
         listOfParticipants = re.split(", |,| , |, | ,| ",inputs)
+
         for name in listOfParticipants:
 
             if self.memberExists(name):
                 member = self.__memberList[name]
-                print("Did %s pay for this meeting? " % name,end="")
-                payment = int(input("Enter 1 for yes or 0 for no: "))
+                member.attend(meetingTitle)
 
-                if payment == 1:
-                    member.attend(meetingTitle,1)
-                    if member.hasPaidLumpSum():
-                        member.receiveMessage("You have received 20 percent discount on %s fee because you previously paid for a month in advance!" % meetingTitle)
-                        member.addDebt(8)
-                    else:
+                if member.getDebt() < 0:
+                    print("%s has already paid for this meeting." % name)
+                    member.addDebt(8)
+                    member.receiveMessage(
+                        "You have received 20 percent discount on %s fee because you previously paid for a month in advance! Your balance is currently %d" % (
+                            meetingTitle, member.getDebt()))
+
+
+                else:
+
+                    print("Did %s pay for this meeting? " % name,end="")
+                    payment = int(input("Enter 1 for yes or 0 for no: "))
+
+
+
+
+                    if payment == 1:
+
                         if member.getDebt() == 0:
-                            member.receiveMessage(
-                                "You have received 10 percent discount the on %s fee because your balance is clear!" % meetingTitle)
                             member.addDebt(9)
+                            member.receiveMessage(
+
+                                "You have received 10 percent discount the on %s fee because your balance is clear! Your balance is currently %d" % (meetingTitle,member.getDebt()))
+
                         else:
                             member.addDebt(10)
 
 
-                else:
-                    self.__memberList[name].attend(meetingTitle, 0)
-                    member.addDebt(10)
+                    else:
+
+                        member.addDebt(10)
             else:
                 print("No member found named %s"%name)
 

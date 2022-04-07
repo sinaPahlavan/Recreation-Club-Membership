@@ -21,17 +21,24 @@ class Member:
             return True
         return False
 
-    def attend(self,meetingTitle,paymentStatus):
+    def attend(self,meetingTitle):
 
-        self.__attendedClasses.append([meetingTitle,paymentStatus])
+        self.__attendedClasses.append(meetingTitle)
 
     def getAttendance(self):
-        for i in self.__attendedClasses:
-            if i[1] == 1:
-                print("\tYou attended %s meeting and paid its fee." % i[0])
 
-            else:
-                print("\tYou attended %s meeting but didn't pay" % i[0])
+        size = len(self.__attendedClasses)
+
+        if size == 0:
+            print("You have not attended any classes yet")
+        elif size == 1:
+            print("You have attended the following meeting: %s" % self.__attendedClasses[0])
+        else:
+            print("You have attended the following meetings:",end=" ")
+            for meeting in self.__attendedClasses:
+                print("%s" % meeting,sep=' ')
+
+
 
     def hasPaidLumpSum(self):
         return self.__hasPaidLumpSum
@@ -46,14 +53,21 @@ class Member:
         if self.__debt == 0:
             self.__debt -= 40
             self.__hasPaidLumpSum = True
+            self.receiveMessage("You have paid for a month in advance. Your balance currently is %d" % self.getDebt())
         else:
             print("Sorry, you may not pay for one month in advance because your balance is not clear.")
 
     def receiveMessage(self,message):
         self.__messages.insert(0,message)
-    def viewMessages(self):
-        return self.__messages
 
+    def viewMessages(self):
+        i = 0
+        print("Your messages starting from the latest to the earliest")
+        for message in self.__messages:
+            print("\t%d. %s" % (i+1,message))
+            i += 1
+
+        print("\n")
     def loop(self):
         print("\n\tWelcome %s to the member panel\n" % self.__name)
         cond = True
@@ -68,7 +82,7 @@ class Member:
                 print("Your debt is %d" % self.__debt)
 
             elif option == 2:
-                print(self.__messages)
+                self.viewMessages()
 
             elif option == 3:
                 if self.__debt == 0:
