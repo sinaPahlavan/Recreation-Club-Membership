@@ -2,12 +2,14 @@ from Member import Member
 from Instructor import Instructor
 from Meeting import Meeting
 import re
+
 class Club:
     def __init__(self):
         self.__memberList = {}
         self.__meetingList = {}
         self.__balance = 0
         self.instructor = Instructor()
+
     def addMember(self,name):
         self.__memberList[name] = Member(name)
 
@@ -29,29 +31,25 @@ class Club:
                 else:
                     value.receiveMessage("You currently have %d dollars in outstanding fees. If you don't pay your debt, you will be removed from the club!" % value.getDebt())
 
-    def sendMeetingReminders(self,meetingTitle):
-        if meetingTitle in self.__meetingList.keys():
-            if self.__meetingList[meetingTitle].getStatus() == "passed":
-                print("The meeting with title %s has already taken place. You can't send reminders about this meeting" % meetingTitle)
-            else:
-                for value in self.__memberList.values():
-                    if self.__meetingList[meetingTitle].instructorAttends() == 1:
-                        value.receiveMessage("Don't forget to attend %s meeting. The instructor will be there!" % meetingTitle)
-                    else:
-                        value.receiveMessage(
-                            "Don't forget to attend %s meeting. The instructor will not be there however!" % meetingTitle)
+    def sendMeetingReminders(self,meetingTitle,day,time):
 
-        else:
-            print("Meeting %s not found" % meetingTitle)
+
+        for value in self.__memberList.values():
+            value.receiveMessage("Don't forget to attend %s meeting. It will happen on %s at %s!" % (meetingTitle,day,time))
+
+
+
 
     def payInstructor(self):
 
         numofclasses = len(self.__meetingList)
-        if numofclasses % 2 != 0:
+
+        if numofclasses % 2 == 0:
 
             if (self.instructor.getAttendance()>0):
-                wage = 100 * self.instructor.getAttendance()
+                wage = 10 * self.instructor.getAttendance()
                 self.__balance -= wage
+                self.instructor.getPaid(wage)
                 self.instructor.receiveMessage("Congrats! You have been paid %d dollars for the %d classes you supervised." % (wage, self.instructor.getAttendance()))
                 self.instructor.reset()
 
@@ -59,6 +57,19 @@ class Club:
                 print("The instructor has not attended any classes")
         else:
             print("The instructor can only be paid biweekly or monthly")
+
+
+    def payRent(self):
+        length = len(self.__meetingList)
+        if length == 0:
+            print("Rent can only be paid monthly")
+        else:
+
+            if length > 4 or length % 4 == 0:
+                self.__balance -= 100 #rent is $100
+
+            else:
+                print("Rent can only be paid monthly")
 
     def startMeeting(self,meetingTitle):
         print("\n****************************************************\n")
@@ -71,7 +82,9 @@ class Club:
         instructorAttends = int(input("Enter 1 if the instructor is present. Enter any other integer if they are not: "))
 
         if instructorAttends == 1:
+
             self.instructor.attends()
+            self.instructor.addAttendedClass(meetingTitle)
         inputs = input("Enter the names of participants in this class: ")
 
         listOfParticipants = re.split(", |,| , |, | ,| ",inputs)
@@ -125,31 +138,29 @@ class Club:
             print("Please choose one of the following options or press any other integer to return to the main menu\n")
 
             choice = int(input(
-                "\t1. To notify members with debt\n\t2. To schedule a meeting\n\t3. To send reminders about a meeting\n\t4. To start a meeting\n\t5. To pay the instructor\nYour choice: "))
+                "\t1. To notify members with debt\n\t2. To send reminders about a meeting\n\t3. To start a meeting\n\t4. To pay the instructor\n\t5. to pay rent\t\n6. view the club's balance\nYour choice: "))
             if choice == 1:
                 self.sendBalanceNotice()
 
-            elif choice == 2:
 
-                title = input("What's the title of the meeting to schedule? ")
-                instructorAttends = int(input("Will the instructor attend this meeting? Enter 1 for yes or 0 for no: "))
-                if instructorAttends == 1:
-                    self.instructor.attends()
-                    self.__meetingList[title] = Meeting(title, 1, "Upcoming")
-                else:
-                    self.__meetingList[title] = Meeting(title, 0, "Upcoming")
+
+            elif choice == 2:
+                title = input("What's the title of the meeting you would like to send reminders about? ")
+                day = input("When is the meeting taking place? ")
+                time = input("At what time is the meeting taking place? ")
+                self.sendMeetingReminders(title,day,time)
 
             elif choice == 3:
-                title = input("What's the title of the meeting you would like to send reminders about? ")
-                self.sendMeetingReminders(title)
-
-            elif choice == 4:
 
                 title = input("What's the title of the meeting you would like to start? ")
+                self.__meetingList[title] = Meeting(title)
                 self.startMeeting(title)
 
-            elif choice == 5:
+            elif choice == 4:
                 self.payInstructor()
+
+            elif choice == 5:
+                self.payRent()
 
             else:
                 cnd = False
@@ -188,15 +199,7 @@ class Club:
 
             elif option == 3:
                 #This option is activated when the user is an instructor
-                cond2 = True
-                while cond2:
-                    newoption3 = int(input("Press 1 to view your messages: "))
-
-                    if newoption3 == 1:
-                        self.payInstructor()
-                        print(self.instructor.viewMessage())
-                    else:
-                        cond2 = False
+                self.instructor.instructorLoop()
 
             else :
                 cond = True
