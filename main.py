@@ -46,6 +46,7 @@ def sortByNotPaid():
 
 #test cases
 class Tests(unittest.TestCase):
+
     def testMonthUpfronts(self):
         #testing function upfronts() in class Month
         #testing function profit() in class Month
@@ -193,7 +194,7 @@ def mainLoop():
             cond = False
 
 
+
 # if __name__ == '__main__':
 #     unittest.main()
-
 mainLoop()

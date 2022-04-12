@@ -43,7 +43,7 @@ class Treasurer:
 
             totalR += ret[1]
             totalE += ret[2]
-        theList.append(["total",totalR,totalR,totalR-totalE])
+        theList.append(["total",totalR,totalE,totalR-totalE])
         print(tabulate(theList, headers=["Month", "Revenue($)", "Expenses($)","Profit"],tablefmt="github"))
 
 

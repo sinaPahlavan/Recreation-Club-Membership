@@ -26,7 +26,7 @@ class Instructor:
 
     def sendMessage(self):
         #can send messages to all or some members
-        message = input("What the message: ")
+        message = input("What's the message you would like to send: ")
         choice = int(input("Would you like to send this message to everyone or select members: "))
         if choice == 1:
             for i in self.members.values():
@@ -35,10 +35,11 @@ class Instructor:
 
             for i in self.members.keys():
                 print(i,sep=", ")
-            inputs = input("Enter the names of people who you would like to send messages to")
+            inputs = input("Enter the names of people who you would like to send messages to: ")
             listOfRecipients= re.split(", |,| , |, | ,| ", inputs)
             for i in listOfRecipients:
                 self.members[i].receiveMessage(message)
+
     def printMeetings(self):
         for mo in self.calendar:
             for me in self.calendar[mo].meetings:
@@ -112,7 +113,7 @@ class Instructor:
         cond = True
         while cond:
             print("Please choose one of the following options")
-            print("\t1. to view your messages\n\t2. to attend a meeting\n\t3. to see your classes\n\t4. to exit ")
+            print("\t1. to view your messages\n\t2. to attend a meeting\n\t3. to see your classes\n\t4. Send messages \n\t5. to exit ")
             newoption = int(input("Your choice: "))
 
             if newoption == 1:
@@ -124,6 +125,9 @@ class Instructor:
 
             elif newoption == 3:
                 self.viewSchedule()
+
+            elif newoption == 4:
+                self.sendMessage()
 
             else:
                 cond = False
