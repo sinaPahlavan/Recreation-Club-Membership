@@ -48,7 +48,7 @@ class Member:
                 date += " "
                 date += str(me.title)
                 self.attendedClasses.append(date)
-
+                self.paidClasses.append(date)
                 me.addAttendee(self,1)
                 me.balance += 10
 
@@ -85,7 +85,7 @@ class Member:
                 print("You have already signed up for classes in %s" % mo)
             else:
                 me = int(choice[1])
-                pay = int(input("Would you like to pay for this meeting? "))
+                pay = int(input("Would you like to pay for this meeting? Press 1 for yes or any other integer for no: "))
                 date = mo
                 date += " "
                 date += str(me)
@@ -131,7 +131,7 @@ class Member:
                 if size == 0:
                     print("No classes yet")
                 elif size == 1:
-                    print("You have attended the following meeting: %s" % theList[0])
+                    print("Your classes: %s" % theList[0])
                 else:
                     print("Your classes:", end=" ")
                     print(', '.join([x for x in theList]))

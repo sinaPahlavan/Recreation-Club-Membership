@@ -28,6 +28,7 @@ def printMembers():
     for member in members.values():
         member.print()
 
+
 def sortByFrequency():
     #this function will sort members based on the number of classes they have attended
     membersList.sort(key=lambda x: len(x.attendedClasses), reverse=True)
@@ -153,7 +154,7 @@ def mainLoop():
             instructor.instructorLoop()
 
         elif option == 4:
-            inp = int(input("To see the list of members press 1, to see the list of members sorted by the number of times they have paid press 2, to see the list of members by the number of times they haven't paid press 3, 4 to see full list of members: "))
+            inp = int(input("To see the list of members press 1\nto see the list of members sorted by the number of times they have paid press 2\nto see the list of members by the number of times they haven't paid press 3\n4 to see full list of members\n5 to return\nYour Choice: "))
             if inp == 1:
                 #sort by frequency of attendance
                 theList = sortByFrequency()

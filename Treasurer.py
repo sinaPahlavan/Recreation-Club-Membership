@@ -113,7 +113,7 @@ class Treasurer:
                 "Please choose one of the following options or press any other integer to return to the main menu\n")
 
             choice = int(input(
-                "\t1. To see profit\n\t2. To see unpaid debt\n\t3. To see people who paid in full per month\n\t4. To pay all debt\n\t5. Manage coach's list(add or remove members)\nYour choice: "))
+                "\t1. To see profit\n\t2. To see unpaid debt\n\t3. To see people who paid in full per month\n\t4. To pay debt\n\t5. Manage coach's list(add or remove members)\nYour choice: "))
 
             if choice == 1:
                 self.seeAccounts()
@@ -127,7 +127,7 @@ class Treasurer:
 
             elif choice == 4:
                 choice = int(input(
-                    "Would you like to clear debts for all months or certain months? Press 1 for all. Press any other integer otherwise"))
+                    "Would you like to clear debts for all months or certain months? Press 1 for all. Press any other integer otherwise: "))
                 if choice == 1:
                     self.payAllDebt()
                 else:
